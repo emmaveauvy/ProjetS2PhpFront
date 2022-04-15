@@ -1,0 +1,15 @@
+* {
+  box-sizing: border-box;
+  font-family: $regular-font;
+  color: $text;
+  scroll-behavior: smooth;
+
+  &:focus {
+    // box-shadow: 0 0 0 0.2rem $r-secondary;
+    outline: none;
+  }
+
+  // &::selection {
+  //   background-color: $r-secondary;
+  // }
+}
