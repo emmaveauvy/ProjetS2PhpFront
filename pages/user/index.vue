@@ -1,7 +1,5 @@
 <template>
-  <div class="row quiz">
-    <QuizQuestion text="Comment être aussi beau que Antoine Leblond ?" code="15397B"/>
-  </div>
+  <h1>User</h1>
 </template>
 
 <script>
