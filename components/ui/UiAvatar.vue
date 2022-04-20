@@ -34,7 +34,6 @@ export default Vue.extend({
     width: 100%;
     height: 100%;
     @include d-flex-center;
-    font-family: $secondary-font;
     font-weight: $semi-bold-font-weight;
     color: #fff;
   }

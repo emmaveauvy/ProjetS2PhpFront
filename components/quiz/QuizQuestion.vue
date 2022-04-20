@@ -25,6 +25,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .quiz-question {
   position: relative;
+  
   &__text {
     position: absolute;
     top: 50%;
@@ -32,8 +33,9 @@ export default Vue.extend({
     transform: translate(0, -50%);
     width: 57%;
     height: 70%;
-
+    
     @include font-size(70);
+    font-family: $secondary-font;
     font-weight: $semi-bold-font-weight;
     line-height : 140%;
     display: flex;
@@ -48,6 +50,7 @@ export default Vue.extend({
     width: 10%;
     height: 80%;
 
+    font-family: $secondary-font;
     writing-mode: vertical-lr;
     @include font-size(85);
     font-weight: $semi-bold-font-weight;

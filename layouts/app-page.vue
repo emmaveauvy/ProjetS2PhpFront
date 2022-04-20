@@ -20,7 +20,7 @@
     position: fixed;
     top: 0;
     width: 100%;
-    // box-shadow: 0px -1px 1px 1px $r-secondary-3;
+    box-shadow: 0px -1px 1px 1px $r-secondary-3;
     transition: 0.7s background, 0.2s box-shadow, 0.2s padding;
     backdrop-filter: blur(12px);
     padding-bottom: 2px;

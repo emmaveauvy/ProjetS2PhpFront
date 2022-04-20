@@ -19,7 +19,7 @@
       </nav>
     </div>
     <div class="col-3 ui-navigation__account">
-      <UiNavItemAccount />
+      <NuxtLink to="/user"><UiNavItemAccount /></NuxtLink>
     </div>
   </div>
 </template>
