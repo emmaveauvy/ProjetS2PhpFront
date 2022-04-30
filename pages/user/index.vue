@@ -6,12 +6,9 @@
 import Vue from "vue";
 export default Vue.extend({
   layout: "app-page",
-  
-  async asyncData({ params, redirect }) {
-    if(true) {
-      redirect('/sign-in')
-    }
-  }
+
+  middleware: 'authenticated'
+
 });
 </script>
 

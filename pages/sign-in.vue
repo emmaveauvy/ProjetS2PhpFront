@@ -4,7 +4,7 @@
     <div class="col-7 sign-up__form-wrapper align-self-center">
       <div class="row justify-content-center">
         <div class="col-5">
-          <div class="form">
+          <form class="form" @submit.prevent="userLogin">
             <div class="form__wrapper">
               <div class="form__content">
                 <h1>Welcome<br>back</h1>
@@ -14,9 +14,10 @@
               </div>
               <div class="form__footer">
                 <UiButton to="/" label="Done" :disabled="buttonDisabled" />
+                <button type="submit">Submit</button>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
@@ -68,6 +69,15 @@ export default Vue.extend({
         }
       }
       this.buttonDisabled = !valid;
+    },
+    async userLogin() {
+      try {
+        let response = await this.$axios.$post(`/api/login`, {'mail': this.form.email.value, 'password': this.form.password.value });
+        console.log("oui");
+      } catch (err) {
+        console.log("non");
+      }
+      
     }
   },
   mounted() {
