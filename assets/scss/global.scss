@@ -12,4 +12,10 @@
   &::selection {
     background-color: $r-secondary;
   }
+
+  .error {
+    @include font-size(13);
+    font-style: italic;
+    margin-top: 30px;
+  }
 }

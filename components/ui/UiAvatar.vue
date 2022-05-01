@@ -1,6 +1,7 @@
 <template>
     <div class="ui-avatar" :style="color">
-      <p class="ui-avatar__letter">{{letter}}</p>
+      <p class="ui-avatar__letter">{{a}}</p>
+      <img v-if="!a" src="https://miro.medium.com/max/360/1*W35QUSvGpcLuxPo3SRTH4w.png" alt="avatar">
     </div>
 </template>
 
@@ -8,14 +9,23 @@
 import Vue from "vue";
 export default Vue.extend({
   props: {
-    name: {
+    letter: {
       type: String,
-      required: true
+      default : ''
     }
-  }, 
+  },
+  data() {
+    return {
+      name: ''
+    }
+  },
+  async fetch() {
+    let user = await this.$axios.$get(`/api/me`);
+    this.name = user.name;
+  },
   computed: {
-    letter() {
-      return this.name.charAt(0).toUpperCase();
+    a() {
+      return this.letter == '' ? this.name.charAt(0).toUpperCase() : this.letter;
     },
     color() {
       let colors = ['#c7a21c', '#04d8d1'];
@@ -30,12 +40,22 @@ export default Vue.extend({
   width: 40px;
   height: 40px;
   border-radius: 100%;
+  position: relative;
   &__letter {
     width: 100%;
     height: 100%;
     @include d-flex-center;
     font-weight: $semi-bold-font-weight;
     color: #fff;
+  }
+  img {
+    width: 200%;
+    height: 200%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 100%;
   }
 }
 </style>

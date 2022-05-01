@@ -6,7 +6,7 @@
         <div class="col-5">
           <UiStepsForm
           class="form"
-          @submit.native.prevent="submitForm(form.progression)"
+          @submit="submitForm()"
           :steps="steps"
           :progression="progression"
           :progressionMax="3"
@@ -16,30 +16,30 @@
               <transition name="slide-fade">
                 <div v-if="progression == 1 && show" class="form__content">
                   <h1>Informations</h1>
-                  <div class="double">
-                    <UiTextInput name="name" label="Name" required v-model="form[0].name.value" @input="checkButtonDisabled" />
-                    <UiTextInput name="lastname" label="Last name" required v-model="form[0].lastname.value" @input="checkButtonDisabled" />
+                  <div>
+                    <UiTextInput name="name" label="Nom" required v-model="form[0].name.value" @input="checkButtonDisabled" />
                   </div> 
-                  <UiTextInput type="email" name="email" label="Email" required v-model="form[0].email.value" placeholder="something@nice.com" @input="checkButtonDisabled" :icon="{ name: 'email', theme: 'outlined' }" />
+                  <UiTextInput type="email" name="Mail" label="Email" required v-model="form[0].email.value" placeholder="something@nice.com" @input="checkButtonDisabled" :icon="{ name: 'email', theme: 'outlined' }" />
                   <UiCheckbox name="rgpd" label="Rgpd" required v-model="form[0].rgpd.value" text="Texte sur le rgpd" @input="checkButtonDisabled" />
                 </div>
               </transition>
               <transition name="slide-fade">
                 <div v-if="progression == 2 && show" class="form__content">
-                  <h1>Profile</h1>
-                  <UiTextInput name="pseudo" label="Pseudo" required v-model="form[1].pseudo.value"  @input="checkButtonDisabled" />
-                  <UiTextInput name="password" label="Password" type="password" required v-model="form[1].password.value"  @input="checkButtonDisabled" :icon="{ name: 'lock', theme: 'outlined' }" />
+                  <h1>Mot de passe</h1>
+                  <UiTextInput name="password" label="Mot de passe" type="password" required v-model="form[1].password.value"  @input="checkButtonDisabled" :icon="{ name: 'lock', theme: 'outlined' }" />
                 </div>
               </transition>
               <transition name="slide-fade">
                 <div v-if="progression == 3 && show" class="form__content">
                   <div class="avatar">
-                    <UiAvatar name="Wi"/>
+                    <UiAvatar :letter="this.form[0].name.value.charAt(0).toUpperCase()"/>
                   </div>
+                  <p class="name">{{this.form[0].name.value}}</p>
                 </div>
               </transition>
             </div>
           </UiStepsForm>
+          <p class="error">{{error}}</p>
         </div>
       </div>
     </div>
@@ -58,12 +58,12 @@ export default Vue.extend({
           text: 'Informations'
         },
         {
-          hash: '#profile',
-          text: 'Profile'
+          hash: '#password',
+          text: 'Mot de passe'
         },
         {
           hash: '#validate',
-          text: 'Validate'
+          text: 'Valider'
         }
       ],
       progression: 1,
@@ -72,9 +72,6 @@ export default Vue.extend({
       form: [
         {
           name: {
-            value: ""
-          },
-          lastname: {
             value: ""
           },
           email: {
@@ -87,15 +84,13 @@ export default Vue.extend({
           }
         },
         {
-          pseudo: {
-            value: "",
-          },
           password: {
             value: "",
           }
         },
         {}
-      ]
+      ],
+      error: ''
     }
   },
   methods: {
@@ -143,6 +138,14 @@ export default Vue.extend({
       }
       // console.log(valid);
       this.buttonDisabled = !valid;
+    },
+    async submitForm() {
+      try {
+        await this.$axios.$post(`/api/user`, {'name': this.form[0].name.value, 'mail': this.form[0].email.value, 'password': this.form[1].password.value });
+        this.$router.push('/');
+      } catch (err) {
+        this.error = err?.response?.data?.error;
+      }
     }
   },
   mounted() {
@@ -178,6 +181,14 @@ export default Vue.extend({
     }
     .avatar {
       @include d-flex-center;
+      transform: scale(1.5);
+    }
+    .name {
+      @include font-size(18);
+      font-weight: $semi-bold-font-weight;
+      color: $r-primary;
+      text-align: center;
+      margin-top: 30px;
     }
   }
 }

@@ -7,13 +7,13 @@
       <nav>
         <ol class="ui-navigation__crumbs">
           <li class="ui-navigation__crumb">
-            <NuxtLink to="/quiz/add">Create</NuxtLink>
+            <NuxtLink to="/quiz/add">Créer</NuxtLink>
           </li>
           <li class="ui-navigation__crumb">
-            <NuxtLink to="/quiz">Play</NuxtLink>
+            <NuxtLink to="/quiz">Jouer</NuxtLink>
           </li>
           <li class="ui-navigation__crumb">
-            <NuxtLink to="/user">Account</NuxtLink>
+            <NuxtLink to="/user">Mon compte</NuxtLink>
           </li>
         </ol>
       </nav>

@@ -4,20 +4,20 @@
     <div class="col-7 sign-up__form-wrapper align-self-center">
       <div class="row justify-content-center">
         <div class="col-5">
-          <form class="form" @submit.prevent="userLogin">
+          <form class="form">
             <div class="form__wrapper">
               <div class="form__content">
-                <h1>Welcome<br>back</h1>
-                <p>New here ? <UiLink text="Create an account" to="/sign-up" /></p>
+                <h1>Re<br>Bonjour</h1>
+                <p>Nouveau ici ? <UiLink text="Créer un compte" to="/sign-up" /></p>
                 <UiTextInput type="email" name="email" label="Email" required v-model="form.email.value" placeholder="something@nice.com" @input="checkButtonDisabled" :icon="{ name: 'email', theme: 'outlined' }" />
-                <UiTextInput type="password" name="password" label="Password" required v-model="form.password.value" @input="checkButtonDisabled" :icon="{ name: 'lock' }" />
+                <UiTextInput type="password" name="password" label="Mot de passe" required v-model="form.password.value" @input="checkButtonDisabled" :icon="{ name: 'lock' }" />
               </div>
-              <div class="form__footer">
-                <UiButton to="/" label="Done" :disabled="buttonDisabled" />
-                <button type="submit">Submit</button>
+              <div class="form__footer" @click="userLogin">
+                <UiButton label="Valider" :disabled="buttonDisabled" />
               </div>
             </div>
           </form>
+          <p class="error" v-if="error">{{error}}</p>
         </div>
       </div>
     </div>
@@ -41,6 +41,7 @@ export default Vue.extend({
           value: "",
         },
       },
+      error: ''
     };
   },
   methods: {
@@ -71,13 +72,13 @@ export default Vue.extend({
       this.buttonDisabled = !valid;
     },
     async userLogin() {
+      let response;
       try {
-        let response = await this.$axios.$post(`/api/login`, {'mail': this.form.email.value, 'password': this.form.password.value });
-        console.log("oui");
+        response = await this.$axios.$post(`/api/login`, {'mail': this.form.email.value, 'password': this.form.password.value });
+        this.$router.push('/');
       } catch (err) {
-        console.log("non");
+        this.error = err?.response?.data?.error;
       }
-      
     }
   },
   mounted() {

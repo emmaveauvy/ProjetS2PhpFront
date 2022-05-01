@@ -1,16 +1,22 @@
 <template>
-  <NuxtLink v-if="!native" :to="to" :class="['ui-button', disabled ? 'disabled' : '']">
+  <NuxtLink v-if="!native && to" :to="to" :class="['ui-button', disabled ? 'disabled' : '']">
     <div class="ui-button__container" :class="{secondary}" :style="padding">
       <UiIcon v-if="icon" class="ui-button__icon" :name="icon.name" :theme="icon.theme" />
       <span v-if="label" class="ui-button__text">{{ label }}</span>
     </div>
   </NuxtLink>
-  <a v-else :href="to" :class="['ui-button', disabled ? 'disabled' : '']" :target="blank ? '_blank' : ''">
+  <a v-else-if="to" :href="to" :class="['ui-button', disabled ? 'disabled' : '']" :target="blank ? '_blank' : ''">
     <div class="ui-button__container" :class="{secondary}" :style="padding">
       <UiIcon v-if="icon" class="ui-button__icon" :name="icon.name" :theme="icon.theme" />
       <span v-if="label" class="ui-button__text">{{ label }}</span>
     </div>
   </a>
+  <div v-else :class="['ui-button', disabled ? 'disabled' : '']" :target="blank ? '_blank' : ''">
+    <div class="ui-button__container" :class="{secondary}" :style="padding">
+      <UiIcon v-if="icon" class="ui-button__icon" :name="icon.name" :theme="icon.theme" />
+      <span v-if="label" class="ui-button__text">{{ label }}</span>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -19,7 +25,7 @@ export default Vue.extend({
   props: {
     to: {
       type: String,
-      required: true
+      default: null
     },
     label: {
       type: String,
@@ -62,6 +68,7 @@ export default Vue.extend({
   font-weight: $semi-bold-font-weight;
   border-radius: 5px;
   overflow: hidden;
+  cursor: pointer;
   &__container {
     background-color: $r-primary;
     height: 40px;

@@ -1,6 +1,6 @@
 <template>
   <div class="ui-navitemaccount">
-    <UiAvatar name="Willy" />
+    <UiAvatar />
   </div>
 </template>
 

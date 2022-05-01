@@ -6,6 +6,7 @@
 import Vue from "vue";
 export default Vue.extend({
   layout: "app-page",
+  middleware: 'authenticated',
 });
 </script>
 

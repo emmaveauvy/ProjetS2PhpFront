@@ -20,11 +20,19 @@
         :icon="{ name: 'chevron_left' }"
       />
       <UiButton
-        :to="progression != steps.length ? steps[progression].hash : '/'"
-        :label="progression != steps.length ? 'Next' : 'Done'"
+        v-if="progression != steps.length"
+        :to="steps[progression].hash"
+        label="Suivant"
         :disabled="btnNextDisabled"
         native
       />
+      <div v-else @click="$emit('submit')">
+        <UiButton
+          label="Valider"
+          :disabled="btnNextDisabled"
+          native
+        />
+      </div>
     </div>
   </form>
 </template>
@@ -125,7 +133,7 @@ export default Vue.extend({
   &__footer {
     display: flex;
     justify-content: flex-end;
-    a {
+    .ui-button {
       margin-left: 1rem;
     }
   }
