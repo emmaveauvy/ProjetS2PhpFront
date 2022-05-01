@@ -72,9 +72,8 @@ export default Vue.extend({
       this.buttonDisabled = !valid;
     },
     async userLogin() {
-      let response;
       try {
-        response = await this.$axios.$post(`/api/login`, {'mail': this.form.email.value, 'password': this.form.password.value });
+        await this.$axios.$post(`/api/login`, {'mail': this.form.email.value, 'password': this.form.password.value });
         this.$router.push('/');
       } catch (err) {
         this.error = err?.response?.data?.error;
