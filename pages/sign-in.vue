@@ -89,9 +89,9 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .sign-up {
   height: 100vh;
-  // &__image-wrapper {
-  //   @include background-img('imgs/sign-up.png');
-  // }
+  &__image-wrapper {
+    @include background-img('imgs/back.png');
+  }
 }
 .form {
   &__content {
