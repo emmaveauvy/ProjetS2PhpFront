@@ -1,5 +1,10 @@
 <template>
-  <p>sddsq</p>
+  <div class="index">
+    <div class="row">
+      <QuizHome />
+      <QuizCode />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -8,3 +13,7 @@ export default Vue.extend({
   layout: "app-page",
 });
 </script>
+
+<style lang="scss" scoped>
+
+</style>

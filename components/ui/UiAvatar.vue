@@ -41,6 +41,7 @@ export default Vue.extend({
   height: 40px;
   border-radius: 100%;
   position: relative;
+  overflow: hidden;
   &__letter {
     width: 100%;
     height: 100%;

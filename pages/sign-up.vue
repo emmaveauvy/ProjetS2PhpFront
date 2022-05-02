@@ -163,7 +163,7 @@ export default Vue.extend({
 .sign-up {
   height: 100vh;
   &__image-wrapper {
-    @include background-img('imgs/back.png');
+    @include background-img('imgs/backH.png');
   }
 }
 .form {

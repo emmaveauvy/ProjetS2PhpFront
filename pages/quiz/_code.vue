@@ -1,8 +1,13 @@
 <template>
   <div>
     <div v-if="!loading">
-      <QuizCode v-if="!code" />
-      <Quiz v-else :code="code" />
+      <div v-if="!code" class="quiz-code-container">
+        <QuizCode />
+      </div>
+      <div v-else>
+        <Quiz :code="code" />
+      </div>
+      
     </div>
     <div v-else>
       <p>loading</p>
@@ -38,5 +43,10 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+
+.quiz-code-container {
+  height: calc(100vh - #{$nav-height} - 30px);
+  @include d-flex-center;
+}
 
 </style>
