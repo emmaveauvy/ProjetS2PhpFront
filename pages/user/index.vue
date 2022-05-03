@@ -23,7 +23,7 @@
             <div v-for="(aquiz, index) in quiz" :key="index" class="user__quiz">
               <h2>{{aquiz.name}}</h2>
               <div class="user__controls">
-                <UiButton label="Jouer" :to="`/play/${aquiz.code}`" />
+                <UiButton label="Jouer" :to="`/join/${aquiz.code}`" />
                 <UiButton label="Editer" secondary :to="`/quiz/edit/${aquiz.code}`" />
               </div>
             </div>
