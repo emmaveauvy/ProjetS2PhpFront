@@ -10,7 +10,7 @@
             <NuxtLink to="/quiz/add">Créer</NuxtLink>
           </li>
           <li class="ui-navigation__crumb">
-            <NuxtLink to="/quiz">Jouer</NuxtLink>
+            <NuxtLink to="/play">Jouer</NuxtLink>
           </li>
           <li class="ui-navigation__crumb">
             <NuxtLink to="/user">Mon compte</NuxtLink>

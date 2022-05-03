@@ -1,17 +1,17 @@
 <template>
-  <NuxtLink v-if="!native && to" :to="to" :class="['ui-button', disabled ? 'disabled' : '']">
+  <NuxtLink v-if="!native && to" :to="to" :class="['ui-button', disabled ? 'disabled' : '']" @click="$emit('click')">
     <div class="ui-button__container" :class="{secondary}" :style="padding">
       <UiIcon v-if="icon" class="ui-button__icon" :name="icon.name" :theme="icon.theme" />
       <span v-if="label" class="ui-button__text">{{ label }}</span>
     </div>
   </NuxtLink>
-  <a v-else-if="to" :href="to" :class="['ui-button', disabled ? 'disabled' : '']" :target="blank ? '_blank' : ''">
+  <a v-else-if="to" :href="to" :class="['ui-button', disabled ? 'disabled' : '']" :target="blank ? '_blank' : ''" @click="$emit('click')">
     <div class="ui-button__container" :class="{secondary}" :style="padding">
       <UiIcon v-if="icon" class="ui-button__icon" :name="icon.name" :theme="icon.theme" />
       <span v-if="label" class="ui-button__text">{{ label }}</span>
     </div>
   </a>
-  <div v-else :class="['ui-button', disabled ? 'disabled' : '']" :target="blank ? '_blank' : ''">
+  <div v-else :class="['ui-button', disabled ? 'disabled' : '']" :target="blank ? '_blank' : ''" @click="$emit('click')">
     <div class="ui-button__container" :class="{secondary}" :style="padding">
       <UiIcon v-if="icon" class="ui-button__icon" :name="icon.name" :theme="icon.theme" />
       <span v-if="label" class="ui-button__text">{{ label }}</span>

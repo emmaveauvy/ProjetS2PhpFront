@@ -5,8 +5,9 @@
         <div class="quiz-code__container">
           <p class="quiz-code__text">Entrez un code pour <strong>commencer le jeu.</strong></p>
           <QuizInputCode type="text" name="code" label="Code" required v-model="code" />
-          <QuizButton label="Play" :icon="{ name: 'play_arrow', theme: 'outlined' }"/>
+          <QuizButton label="Play" :icon="{ name: 'play_arrow', theme: 'outlined' }" @click="handleSubmit"/>
           <p class="quiz-code__text quiz-code__text--bottom">Créer son propre quiz <UiLink text="ici" to="/quiz/add" /></p>
+          <p class="error">{{error}}</p>
         </div>
       </QuizBackground>
     </div>
@@ -18,6 +19,19 @@ export default Vue.extend({
   data() {
     return {
       code : '',
+      error: ''
+    }
+  },
+  methods: {
+   async handleSubmit() {
+      if(this.code) {
+        try {
+          await this.$axios.$get(`/api/quiz/${this.code}`);
+          this.$router.push(`/play/${this.code}`);
+        } catch (err) {
+          this.error = err?.response?.data?.error;
+        }
+      }
     }
   }
 });
@@ -25,7 +39,7 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 .quiz-code {
-  height: 370px;
+  height: 390px;
   &__title {
     height: 70px;
     color: $text;
@@ -58,6 +72,11 @@ export default Vue.extend({
 
   .quiz-button {
     padding: 30px 0;
+  }
+
+  .error {
+    margin-top: 10px;
+    text-align: center;
   }
 }
 </style>
