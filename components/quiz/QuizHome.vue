@@ -19,7 +19,7 @@ export default Vue.extend({});
 		@include font-size(40);
 	}
 	&__container {
-		padding: 50px;
+		padding: 40px 50px;
 	}
 }
 </style>

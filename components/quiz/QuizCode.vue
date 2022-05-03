@@ -5,7 +5,7 @@
         <div class="quiz-code__container">
           <p class="quiz-code__text">Entrez un code pour <strong>commencer le jeu.</strong></p>
           <QuizInputCode type="text" name="code" label="Code" required v-model="code" />
-          <QuizButton label="Play" :icon="{ name: 'play_arrow', theme: 'outlined' }" @click="handleSubmit"/>
+          <QuizButton label="Jouer" :icon="{ name: 'play_arrow', theme: 'outlined' }" @click="handleSubmit"/>
           <p class="quiz-code__text quiz-code__text--bottom">Créer son propre quiz <UiLink text="ici" to="/quiz/add" /></p>
           <p class="error">{{error}}</p>
         </div>
