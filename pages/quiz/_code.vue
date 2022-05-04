@@ -181,8 +181,11 @@ export default Vue.extend({
 
   &__answer {
     position: relative;
+    transition: 0.15s;
     &--hide {
-      visibility: hidden;
+      background-color: $gray;
+      transform: translateY(7px);
+			box-shadow: none;
     }
   }
 

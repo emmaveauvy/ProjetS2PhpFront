@@ -1,16 +1,10 @@
 <template>
   <div>
-    <div v-if="!loading">
-      <div v-if="!code" class="quiz-code-container">
-        <QuizCode />
-      </div>
-      <div v-else>
-        <Quiz :code="code" />
-      </div>
-      
+    <div v-if="!code" class="quiz-code-container">
+      <QuizCode />
     </div>
     <div v-else>
-      <p>loading</p>
+      <QuizPlay :code="code" />
     </div>
   </div>
 </template>
@@ -22,8 +16,7 @@ export default Vue.extend({
 
   data() {
     return {
-      code: null,
-      loading: true
+      code: null
     }
   },
 
@@ -31,7 +24,6 @@ export default Vue.extend({
     if(params.code) {
       return {
         code: params.code,
-        loading: false,
       }
     }else {
       return {
