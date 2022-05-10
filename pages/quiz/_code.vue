@@ -85,7 +85,7 @@ export default Vue.extend({
   },
   async mounted() {
     try {
-      this.questions = await this.$axios.$get(`/api/questions/${this.code}`);
+      this.questions = await this.$axios.$get(`/api/question/${this.code}`);
       //Il faut clear les donnees des précédents players !
       this.stopwatch();
     } catch (err) {
