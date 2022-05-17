@@ -1,6 +1,6 @@
 <template>
   <div v-if="idPlayer == ''" class="quiz-pseudo-container">
-    <QuizPseudo v-model="idPlayer"/>
+    <QuizPseudo v-model="idPlayer" :idquiz="idQuiz"/>
   </div>
   <div v-else class="quiz-play">
     <div v-for="(question, index) in questions" :key="index">
@@ -55,6 +55,7 @@ export default Vue.extend({
   data() {
     return {
       idPlayer : '',
+      idQuiz : '',
       questions: [],
       progress: 0,
       show: true,
@@ -64,7 +65,8 @@ export default Vue.extend({
   async mounted() {
     try {
       this.questions = await this.$axios.$get(`/api/answers/${this.code}`);
-      this.questions.forEach(question => {
+      this.idQuiz = this.questions[0].id_quiz;
+        this.questions.forEach(question => {
         question.answers.forEach(answer => {
           answer.isTrue = false;
         });
@@ -78,7 +80,7 @@ export default Vue.extend({
       this.questions[this.progress].answers[index].isTrue = true;
       this.showResult = true;
 
-      // await this.$axios.$push(`/api/answer`, {'answer': idAnswer});
+      await this.$axios.$put(`/api/score`, {'playerId': this.idPlayer, "idQuestion": this.questions[this.progress].id, "idAnswer": idAnswer});
 
       setTimeout(() => {
         if(this.progress < this.questions.length) {

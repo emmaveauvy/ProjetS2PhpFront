@@ -53,7 +53,11 @@
         </div>
       </transition>
     </div>
-    <div v-if="showResult">
+    <div v-if="showResult" class="quiz-play__result">
+      <div v-for="(answer, index) in answers" :key="index">
+        <p>{{answer.name}}</p>
+        <p>{{answer.score}}</p>
+      </div>
       <QuizButton :label="progress + 1 != questions.length ? 'Suivant' : 'Fin'" @click="handleNext"/>
     </div>
   </div>
@@ -81,19 +85,22 @@ export default Vue.extend({
       time: 15,
       showResult: false,
       show: true,
+      answers: []
     }
   },
   async mounted() {
     try {
       this.questions = await this.$axios.$get(`/api/question/${this.code}`);
       //Il faut clear les donnees des précédents players !
+      await this.$axios.$delete(`/api/quiz/start`, {"idquiz": this.questions[0].id_quiz});
+      this.$axios.$put(`/api/question/start`, {"questionId": this.questions[this.progress].id});
       this.stopwatch();
     } catch (err) {
       console.log('oups');
     }
   },
   methods: {
-    stopwatch() {
+    async stopwatch() {
       let id = setInterval(() => {
         if(this.time > 0) {
           this.time--;
@@ -102,15 +109,18 @@ export default Vue.extend({
         }
       }, 1000);
     },
-    result(id) {
+    async result(id) {
+      await this.$axios.$put(`/api/question/end`, {"questionId": this.questions[this.progress].id});
       //fetch players results
+      this.answers = await this.$axios.$get(`/api/score/${this.questions[0].id_quiz}`);
       clearInterval(id);
       this.showResult = true;
     },
-    handleNext() {
+    async handleNext() {
       setTimeout(() => {
         this.progress++;
         this.show = true;
+        this.$axios.$put(`/api/question/start`, {"questionId": this.questions[this.progress].id});
       }, 300);
       this.time = 15;
       this.showResult = false;
@@ -196,7 +206,14 @@ export default Vue.extend({
     transform: translate(-50%, -50%);
   }
 
-  @media screen and (min-width: 992px) {
+  &__result {
+    p {
+      color: #fff;
+      margin: 20px;
+    }
+  }
+
+   @media screen and (min-width: 992px) {
     &__col {
       &--right {
         padding-right : 3.5px;

@@ -15,6 +15,12 @@
 <script>
 import Vue from "vue";
 export default Vue.extend({
+  props: {
+    idquiz: {
+      type: String,
+      required : true
+    }
+  },
   data() {
     return {
       pseudo: '',
@@ -25,8 +31,8 @@ export default Vue.extend({
    async handleSubmit() {
       if(this.pseudo) {
         try {
-          // await this.$axios.$get(`/api/quiz/${this.code}`);
-          this.$emit('input', 10); //idPlayer
+          let id = await this.$axios.$post(`/api/player`, {"name": this.pseudo, "idquiz": this.idquiz});
+          this.$emit('input', id); //idPlayer
         } catch (err) {
           this.error = err?.response?.data?.error;
         }
