@@ -1,7 +1,7 @@
 <template>
   <div class="row ui-navigation align-items-center">
-    <div class="col-3">
-      <p>Logo</p>
+    <div class="col-3 ui-navigation__logo">
+      <NuxtLink to="/"><img src="~/assets/imgs/logo.png"  alt="logo le Cami"></NuxtLink>
     </div>
     <div class="col-6">
       <nav>
@@ -29,6 +29,24 @@
   height: $nav-height;
   &__crumbs {
     @include d-flex-center;
+  }
+  &__logo {
+    height: 80%;
+    padding: 5px;
+    img {
+      height: 100%;
+    }
+    a {
+      height: 100%;
+      &:focus {
+        border: none;
+        box-shadow: none;
+      }
+      &:active {
+        border: none;
+        box-shadow: none;
+      }
+    }
   }
   &__crumb {
     @include d-flex-center;

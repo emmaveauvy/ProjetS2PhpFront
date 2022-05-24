@@ -1,8 +1,8 @@
 <template>
-  <div v-if="idPlayer == ''" class="quiz-pseudo-container">
+  <div v-if="idPlayer == ''" class="quiz-full-container">
     <QuizPseudo v-model="idPlayer" :idquiz="idQuiz"/>
   </div>
-  <div v-else class="quiz-play">
+  <div v-else-if="!end" class="quiz-play">
     <div v-for="(question, index) in questions" :key="index">
       <transition name="slide-fade">
         <div v-if="progress == index && show">
@@ -41,6 +41,10 @@
       </transition>
     </div>
   </div>
+  <div v-else class="quiz-full-container ending">
+    <h1>Merci pour votre participation</h1>
+    <UiButton label="Accueil" to="/" />
+  </div>
 </template>
 
 <script>
@@ -59,7 +63,8 @@ export default Vue.extend({
       questions: [],
       progress: 0,
       show: true,
-      showResult : false
+      showResult : false,
+      end: false,
     }
   },
   async mounted() {
@@ -91,9 +96,12 @@ export default Vue.extend({
             this.progress++;
             this.show = true;
             this.showResult = false;
+            if (this.progress >= this.questions.length) {
+              this.end = true;
+            }
           }, 300);
         }
-      }, 5000);
+      }, 3000);
     },
   }
 });
@@ -102,9 +110,18 @@ export default Vue.extend({
 
 <style lang="scss" scoped>
 
-.quiz-pseudo-container {
+.quiz-full-container {
   height: calc(100vh - #{$nav-height} - 30px);
   @include d-flex-center;
+}
+
+.ending {
+  flex-flow: column nowrap;
+  h1 {
+    @include font-size(30);
+    color: #fff;
+    margin-bottom: 20px;
+  }
 }
 
 .quiz-play {

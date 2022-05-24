@@ -1,5 +1,5 @@
 <template>
-  <div class="quiz-play">
+  <div v-if="!end" class="quiz-play">
     <div v-for="(question, index) in questions" :key="index">
       <transition name="slide-fade">
         <div v-if="progress == index && show">
@@ -55,11 +55,20 @@
     </div>
     <div v-if="showResult" class="quiz-play__result">
       <div v-for="(answer, index) in answers" :key="index">
-        <p>{{answer.name}}</p>
-        <p>{{answer.score}}</p>
+        <div class="quiz-play__score">
+          <p>{{answer.name}}</p>
+          <p>{{answer.score}}</p>
+        </div>
       </div>
+    </div>
+    <div v-if="showResult" class="quiz-play__button">
       <QuizButton :label="progress + 1 != questions.length ? 'Suivant' : 'Fin'" @click="handleNext"/>
     </div>
+    
+  </div>
+  <div v-else class="quiz-full-container ending">
+    <h1>Le quiz est terminé !</h1>
+    <UiButton label="Accueil" to="/" />
   </div>
 </template>
 
@@ -85,7 +94,8 @@ export default Vue.extend({
       time: 15,
       showResult: false,
       show: true,
-      answers: []
+      answers: [],
+      end: false
     }
   },
   async mounted() {
@@ -117,9 +127,13 @@ export default Vue.extend({
       this.showResult = true;
     },
     async handleNext() {
+      
       setTimeout(() => {
         this.progress++;
         this.show = true;
+        if(this.progress >= this.questions.length) {
+          this.end = true;
+        }
         this.$axios.$put(`/api/question/start`, {"questionId": this.questions[this.progress].id});
       }, 300);
       this.time = 15;
@@ -132,6 +146,21 @@ export default Vue.extend({
 </script>
 
 <style lang="scss" scoped>
+
+.quiz-full-container {
+  height: calc(100vh - #{$nav-height} - 30px);
+  @include d-flex-center;
+}
+
+.ending {
+  flex-flow: column nowrap;
+  h1 {
+    @include font-size(30);
+    color: #fff;
+    margin-bottom: 20px;
+  }
+}
+
 .quiz-play {
   
   &__container {
@@ -199,18 +228,43 @@ export default Vue.extend({
     }
   }
 
+  .quiz-play__result {
+    display: flex;
+    padding: 20px 0;
+  }
+
+  .quiz-play__score {
+    margin-right: 50px;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    @include d-flex-center();
+    padding: 10px;
+    p {
+      margin: 0 5px;
+      color: #fff;
+      &:first-of-type {
+        color: $text;
+        background-color: $y-primary;
+        padding: 5px;
+        border-radius: 5px;
+      }
+    }
+  }
+
+  &__button {
+    @include d-flex-center();
+    padding: 20px 0;
+    .quiz-button {
+      overflow: visible;
+    }
+  }
+
   &__sym {
     position: absolute;
     left: 50px;
     top: 50%;
     transform: translate(-50%, -50%);
-  }
-
-  &__result {
-    p {
-      color: #fff;
-      margin: 20px;
-    }
+    
   }
 
    @media screen and (min-width: 992px) {

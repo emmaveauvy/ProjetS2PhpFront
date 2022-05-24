@@ -1,5 +1,5 @@
 <template>
-    <div class="quiz-pseudo col-8 col-md-5 col-xl-3">
+    <div class="quiz-pseudo col-10 col-md-5 col-xl-3">
       <QuizBackground>
         <h2 class="quiz-pseudo__title">Jouer</h2>
         <div class="quiz-pseudo__container">
