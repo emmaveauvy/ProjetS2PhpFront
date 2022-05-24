@@ -7,9 +7,72 @@ export default {
     },
     meta: [
       { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'viewport', content: 'width=device-width, initial-scale=1.0' },
+      // <!-- Primary Meta Tags -->
+      {
+        hid:'title',
+        name:'title',
+        content: "Le Cami - Quiz & Fun !"
+      },
+      {
+        hid: 'description',
+        name: 'description',
+        content: "Teste tes amis en créant des quiz sur tes sujets favoris !"
+      },
+
+      // <!-- Open Graph / Facebook -->
+      {
+        hid: 'og:type',
+        property: 'og:type',
+        content: 'website'
+      },
+      {
+        hid: 'og:url',
+        property: 'og:url',
+        content: "https://quiz.loicquinquenel.fr/"
+      },
+      {
+        hid: 'og:title',
+        property: 'og:title',
+        content: "Le Cami - Quiz & Fun !"
+      },
+      {
+        hid: 'og:description',
+        property: 'og:description',
+        content: "Teste tes amis en créant des quiz sur tes sujets favoris !"
+      },
+      {
+        hid: 'og:image',
+        property: 'og:image',
+        content: 'https://quiz.loicquinquenel.fr/meta_image.png'
+      },
+
+      // <!-- Twitter -->
+      {
+        hid: 'twitter:card',
+        property: 'twitter:card',
+        content: 'summary_large_image'
+      },
+      {
+        hid: 'twitter:url',
+        property: 'twitter:url',
+        content: "https://quiz.loicquinquenel.fr/"
+      },
+      {
+        hid: 'twitter:title',
+        property: 'twitter:title',
+        content: "Le Cami - Quiz & Fun !"
+      },
+      {
+        hid: 'twitter:description',
+        property: 'twitter:description',
+        content: "Teste tes amis en créant des quiz sur tes sujets favoris !"
+      },
+      {
+        hid: 'twitter:image',
+        property: 'twitter:image',
+        content: 'https://quiz.loicquinquenel.fr/meta_image_twitter.png'
+      },
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },

@@ -15,8 +15,15 @@ export default Vue.extend({
     }
   },
 
-  async asyncData({ params, redirect }) {
+  async asyncData({ params, redirect, $axios }) {
     if(params.code) {
+      await $axios.get(`/api/me`)
+      .then(response => {
+        //oui
+      })
+      .catch(() => {
+        return redirect(`/play/${params.code}`);
+      })
       return {
         code: params.code
       }
