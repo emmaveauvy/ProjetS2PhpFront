@@ -20,11 +20,14 @@
         <QuizBackground>
           <div class="user__container">
             <h1 class="user__title">Mes quiz</h1>
-            <div v-for="(aquiz, index) in quiz" :key="index" class="user__quiz">
-              <h2>{{aquiz.name}}</h2>
-              <div class="user__controls">
-                <UiButton label="Jouer" :to="`/join/${aquiz.code}`" />
-                <UiButton label="Editer" secondary :to="`/quiz/edit/${aquiz.code}`" />
+            <div v-for="(aquiz, index) in quiz" :key="index">
+              <div v-if="aquiz.del != true" class="user__quiz">
+                <h2>{{aquiz.name}}</h2>
+                <div class="user__controls">
+                  <UiButton label="Jouer" :to="`/join/${aquiz.code}`" />
+                  <UiButton label="Editer" secondary :to="`/quiz/edit/${aquiz.code}`" />
+                  <UiButton :label="aquiz.del == 'confirm' ? 'Sûr ?' : 'Supprimer'" secondary @click="delQuiz(aquiz.code)" />
+                </div>
               </div>
             </div>
           </div>
@@ -61,6 +64,21 @@ export default Vue.extend({
     async logout() {
       await this.$axios.$get(`/api/logout`);
       this.$router.push('/');
+    },
+    async delQuiz(code) {
+      console.log(this.quiz);
+      this.quiz.forEach(async quiz => {
+        if(quiz.code == code) {
+          if(quiz['del']) {
+            quiz['del'] = true;
+            this.$forceUpdate();
+            await this.$axios.$delete(`/api/quiz/${code}`);
+          }else {
+            quiz['del'] = "confirm";
+            this.$forceUpdate();
+          }
+        }
+      });
     }
   }
 
