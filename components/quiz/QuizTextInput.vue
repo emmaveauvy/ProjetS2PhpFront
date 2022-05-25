@@ -16,7 +16,7 @@
         :placeholder="placeholder"
         @input="handleInput"
         :required="required"
-        :maxlength="type == 'text' ? 30 : ''"
+        :maxlength="type == 'text' ? 80 : ''"
         :style="paddingLeft"
       />
     </div>

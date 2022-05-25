@@ -8,7 +8,7 @@
 				<div class="quiz-home__controls">
                   <UiButton label="Jouer" to="/play" />
                   <UiButton label="Créer un quiz" to="/quiz/add" />
-				  <UiButton label="Se connecter" to="/sign-up" />
+				  <UiButton label="Se connecter" to="/sign-in" />
 				  <UiButton label="Créer un compte" to="/sign-up" />
                 </div>
 			</div>

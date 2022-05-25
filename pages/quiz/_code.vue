@@ -196,6 +196,8 @@ export default Vue.extend({
   &__question {
     h1 {
       @include font-size(32);
+      width: 80%;
+      line-height: 130%;
     }
     display: flex;
     align-items: center;

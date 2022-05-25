@@ -2,6 +2,10 @@
   <div v-if="idPlayer == ''" class="quiz-full-container">
     <QuizPseudo v-model="idPlayer" :idquiz="idQuiz"/>
   </div>
+  <div v-else-if="endQuestion" class="quiz-full-container full">
+    <h1>C'est parti pour la question {{progress + 1}} !</h1>
+    <QuizButton @click="startQuestion" label="C'est parti !" />
+  </div>
   <div v-else-if="!end" class="quiz-play">
     <div v-for="(question, index) in questions" :key="index">
       <transition name="slide-fade">
@@ -41,7 +45,7 @@
       </transition>
     </div>
   </div>
-  <div v-else class="quiz-full-container ending">
+  <div v-else class="quiz-full-container full">
     <h1>Merci pour votre participation</h1>
     <UiButton label="Accueil" to="/" />
   </div>
@@ -65,6 +69,7 @@ export default Vue.extend({
       show: true,
       showResult : false,
       end: false,
+      endQuestion: true
     }
   },
   async mounted() {
@@ -81,27 +86,25 @@ export default Vue.extend({
     }
   },
   methods: {
+    startQuestion() {
+      setTimeout(() => {
+        this.endQuestion = false;
+        this.show = true;
+        this.showResult = false;
+      }, 300);
+    },
     async handleSubmit(index, idAnswer) {
       this.questions[this.progress].answers[index].isTrue = true;
       this.showResult = true;
-
       await this.$axios.$put(`/api/score`, {'playerId': this.idPlayer, "idQuestion": this.questions[this.progress].id, "idAnswer": idAnswer});
-
       setTimeout(() => {
+        this.progress++;
         if(this.progress < this.questions.length) {
-          this.showResult = true;
-
-          this.show = false;
-          setTimeout(() => {
-            this.progress++;
-            this.show = true;
-            this.showResult = false;
-            if (this.progress >= this.questions.length) {
-              this.end = true;
-            }
-          }, 300);
+          this.endQuestion = true;
+        }else {
+          this.end = true;
         }
-      }, 3000);
+      }, 2000);
     },
   }
 });
@@ -115,7 +118,12 @@ export default Vue.extend({
   @include d-flex-center;
 }
 
-.ending {
+.full {
+  .quiz-button {
+    overflow: visible;
+    margin: 15px 0;
+  }
+
   flex-flow: column nowrap;
   h1 {
     @include font-size(30);
