@@ -66,7 +66,6 @@ export default Vue.extend({
       this.$router.push('/');
     },
     async delQuiz(code) {
-      console.log(this.quiz);
       this.quiz.forEach(async quiz => {
         if(quiz.code == code) {
           if(quiz['del']) {
