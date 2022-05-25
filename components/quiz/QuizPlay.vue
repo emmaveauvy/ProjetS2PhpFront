@@ -152,7 +152,7 @@ export default Vue.extend({
 
   &__answer {
     @include d-flex-center;
-    height: 30vh;
+    height: 30vh !important;
     transition: 0.15s;
     cursor: pointer;
     &--hide {
