@@ -66,7 +66,15 @@
     </div>
     
   </div>
-  <div v-else class="quiz-full-container ending">
+  <div v-else class="quiz-play quiz-full-container ending">
+    <div v-if="showResult" class="quiz-play__result quiz-play__result--center">
+      <div v-for="(answer, index) in answers" :key="index">
+        <div class="quiz-play__score">
+          <p>{{answer.name}}</p>
+          <p>{{answer.score}}</p>
+        </div>
+      </div>
+    </div>
     <h1>Le quiz est terminé !</h1>
     <UiButton label="Accueil" to="/" />
   </div>
@@ -102,7 +110,6 @@ export default Vue.extend({
     try {
       this.questions = await this.$axios.$get(`/api/question/${this.code}`);
       //Il faut clear les donnees des précédents players !
-      await this.$axios.$delete(`/api/quiz/start`, {"idquiz": this.questions[0].id_quiz});
       this.$axios.$put(`/api/question/start`, {"questionId": this.questions[this.progress].id});
       this.stopwatch();
     } catch (err) {
@@ -120,10 +127,12 @@ export default Vue.extend({
       }, 1000);
     },
     async result(id) {
-      await this.$axios.$put(`/api/question/end`, {"questionId": this.questions[this.progress].id});
-      //fetch players results
-      this.answers = await this.$axios.$get(`/api/score/${this.questions[0].id_quiz}`);
-      clearInterval(id);
+      if(!this.end) {
+        await this.$axios.$put(`/api/question/end`, {"questionId": this.questions[this.progress].id});
+        //fetch players results
+        this.answers = await this.$axios.$get(`/api/score/${this.questions[0].id_quiz}`);
+        clearInterval(id);
+      }
       this.showResult = true;
     },
     async handleNext() {
@@ -132,14 +141,24 @@ export default Vue.extend({
         this.progress++;
         this.show = true;
         if(this.progress >= this.questions.length) {
-          this.end = true;
+          this.endQuiz();
         }
-        this.$axios.$put(`/api/question/start`, {"questionId": this.questions[this.progress].id});
+        if(!this.end) {
+          this.$axios.$put(`/api/question/start`, {"questionId": this.questions[this.progress].id});
+        }
       }, 300);
-      this.time = 15;
-      this.showResult = false;
-      this.stopwatch();
-      this.show = false;
+      if(!this.end) {
+        this.time = 15;
+        this.showResult = false;
+        this.stopwatch();
+        this.show = false;
+      }
+    },
+    async endQuiz() {
+      this.end = true;
+      this.answers = await this.$axios.$get(`/api/score/${this.questions[0].id_quiz}`);
+      this.showResult = true;
+      await this.$axios.$put(`/api/quiz/start`, {"idquiz": this.questions[0].id_quiz});
     }
   }
 });
@@ -231,6 +250,10 @@ export default Vue.extend({
   .quiz-play__result {
     display: flex;
     padding: 20px 0;
+
+    &--center {
+      padding: 50px;
+    }
   }
 
   .quiz-play__score {
@@ -242,7 +265,7 @@ export default Vue.extend({
     p {
       margin: 0 5px;
       color: #fff;
-      &:first-of-type {
+      &:last-of-type {
         color: $text;
         background-color: $y-primary;
         padding: 5px;

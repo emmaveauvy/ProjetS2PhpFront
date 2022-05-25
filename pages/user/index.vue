@@ -24,7 +24,7 @@
               <div v-if="aquiz.del != true" class="user__quiz">
                 <h2>{{aquiz.name}}</h2>
                 <div class="user__controls">
-                  <UiButton label="Jouer" :to="`/join/${aquiz.code}`" />
+                  <UiButton label="Jouer" @click="cleanBDD(aquiz)"/>
                   <UiButton label="Editer" secondary :to="`/quiz/edit/${aquiz.code}`" />
                   <UiButton :label="aquiz.del == 'confirm' ? 'Sûr ?' : 'Supprimer'" secondary @click="delQuiz(aquiz.code)" />
                 </div>
@@ -79,6 +79,10 @@ export default Vue.extend({
           }
         }
       });
+    },
+    async cleanBDD(quiz) {
+      await this.$axios.$put(`/api/quiz/start`, {"idquiz": quiz.id});
+      this.$router.push(`/join/${quiz.code}`);
     }
   }
 
