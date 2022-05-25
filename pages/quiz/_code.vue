@@ -167,6 +167,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 
 .quiz-full-container {
+  text-align: center;
   height: calc(100vh - #{$nav-height} - 30px);
   @include d-flex-center;
 }
