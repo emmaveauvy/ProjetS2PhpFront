@@ -37,7 +37,7 @@
                 <QuizSymAnswer :num="0" class="quiz-add__sym"/>
                 <div class="quiz-add__container quiz-add__container--anwser">
                   <QuizTextInput type="text" name="answer0" :padding="false" required v-model="question.answers[0].value" placeholder="Ma réponse" />
-                  <QuizCheckbox name="isTrue" required v-model="question.answers[0].isTrue"/>
+                  <QuizCheckbox name="isTrue" required @input="(e) => {isTrue(e, index, 0)}" :value="question.answers[0].isTrue"/>
                 </div>
               </QuizBackground>
             </div>
@@ -46,7 +46,7 @@
                 <QuizSymAnswer :num="1" class="quiz-add__sym"/>
                 <div class="quiz-add__container quiz-add__container--anwser">
                   <QuizTextInput type="text" name="answer0" :padding="false" required v-model="question.answers[1].value" placeholder="Ma réponse" />
-                  <QuizCheckbox name="isTrue" required v-model="question.answers[1].isTrue"/>
+                  <QuizCheckbox name="isTrue" required @input="(e) => {isTrue(e, index, 1)}" :value="question.answers[1].isTrue"/>
                 </div>
               </QuizBackground>
             </div>
@@ -57,7 +57,7 @@
                 <QuizSymAnswer :num="2" class="quiz-add__sym"/>
                 <div class="quiz-add__container quiz-add__container--anwser">
                   <QuizTextInput type="text" name="answer0" :padding="false" required v-model="question.answers[2].value" placeholder="Ma réponse" />
-                  <QuizCheckbox name="isTrue" required v-model="question.answers[2].isTrue"/>
+                  <QuizCheckbox name="isTrue" required @input="(e) => {isTrue(e, index, 2)}" :value="question.answers[2].isTrue"/>
                 </div>
               </QuizBackground>
             </div>
@@ -66,7 +66,7 @@
                 <QuizSymAnswer :num="3" class="quiz-add__sym"/>
                 <div class="quiz-add__container quiz-add__container--anwser">
                   <QuizTextInput type="text" name="answer0" :padding="false" required v-model="question.answers[3].value" placeholder="Ma réponse" />
-                  <QuizCheckbox name="isTrue" required v-model="question.answers[3].isTrue"/>
+                  <QuizCheckbox name="isTrue" required @input="(e) => {isTrue(e, index, 3)}" :value="question.answers[3].isTrue"/>
                 </div>
               </QuizBackground>
             </div>
@@ -223,6 +223,15 @@ export default Vue.extend({
       } catch (err) {
         this.error = err?.response?.data?.error;
       }
+    },
+    isTrue(e, indexQuestion, indexAnswer) {
+      console.log(e, indexQuestion, indexAnswer);
+      if(e) {
+        this.questions[indexQuestion].answers.forEach(el => {
+          el.isTrue = false;
+        });
+      }
+      this.questions[indexQuestion].answers[indexAnswer].isTrue = e;
     }
   },
   computed: {
